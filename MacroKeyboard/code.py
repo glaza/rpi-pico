@@ -49,13 +49,14 @@ class Encoder:
     def __init__(self, ucPinLeft, fnLeft, ucPinRight, fnRight):
         self.rioEncoder = rotaryio.IncrementalEncoder(ucPinLeft, ucPinRight)
         self.position = self.rioEncoder.position
-        print(self.rioEncoder.position)
+        # print(self.rioEncoder.position)
         self.fnLeft = fnLeft
         self.fnRight = fnRight
 
     def detect(self):
         if (self.position != self.rioEncoder.position):
-            print(self.rioEncoder.position)
+            # print(self.rioEncoder.position)
+            pass
         if self.rioEncoder.position > self.position:
             self.fnRight()
         elif self.rioEncoder.position < self.position:
@@ -63,19 +64,29 @@ class Encoder:
         self.position = self.rioEncoder.position
 
 buttons = [
-    Button(board.GP16, send(Keycode.ZERO)),  # Encoder
     Encoder(board.GP0, send(Keycode.LEFT_ARROW),
             board.GP1, send(Keycode.RIGHT_ARROW)),
-    Encoder(board.GP2, send(Keycode.LEFT_ARROW),
-            board.GP3, send(Keycode.RIGHT_ARROW)),
+    Encoder(board.GP2, send(Keycode.CONTROL, Keycode.LEFT_ARROW),
+            board.GP3, send(Keycode.CONTROL, Keycode.RIGHT_ARROW)),
     Encoder(board.GP4, send(Keycode.LEFT_ARROW),
             board.GP5, send(Keycode.RIGHT_ARROW)),
-    Button(board.GP20, send(Keycode.THREE)),
-    Button(board.GP21, send(Keycode.FOUR)),
-    Button(board.GP22, send(Keycode.FIVE)),
-    Button(board.GP15, send(Keycode.K)),
+    Button(board.GP6, send(Keycode.FIVE)),  # Right Encoder
+    Button(board.GP7, send(Keycode.CONTROL, Keycode.UP_ARROW)),  # Middle Encoder
+    Button(board.GP22, send(Keycode.TWO, Keycode.TWO)),  # Left Encoder
+    Button(board.GP8, send(Keycode.EIGHT)),
+    Button(board.GP9, send(Keycode.NINE)),
+    Button(board.GP10, send(Keycode.ONE, Keycode.ZERO)),
+    Button(board.GP11, send(Keycode.ONE, Keycode.ONE)),
+    Button(board.GP12, send(Keycode.ONE, Keycode.TWO)),
+    Button(board.GP13, send(Keycode.ONE, Keycode.THREE)),
+    Button(board.GP14, send(Keycode.ONE, Keycode.FOUR)),
+    Button(board.GP15, send(Keycode.ONE, Keycode.FIVE)),
+    Button(board.GP16, send(Keycode.ONE, Keycode.SIX)),
+    Button(board.GP17, send(Keycode.ONE, Keycode.SEVEN)),
+    Button(board.GP18, send(Keycode.ONE, Keycode.EIGHT)),
+    Button(board.GP19, send(Keycode.ONE, Keycode.NINE)),
 ]
-
+# 
 while True:
     time.sleep(0.01)
     for button in buttons:
