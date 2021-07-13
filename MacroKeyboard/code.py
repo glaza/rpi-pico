@@ -19,6 +19,12 @@ def debug(*messages):
     if verbose:
         print(messages)
 
+def smallPause():
+    return lambda: time.sleep(0.01)
+    
+def mediumPause():
+    return lambda: time.sleep(0.1)
+
 def noOp():
     return None
 
@@ -81,13 +87,8 @@ class Encoder:
         self.position = self.rioEncoder.position
 
 buttons = [
-    Encoder(  # Right Encoder
-        "",
-        board.GP0, board.GP1,
-        send(Keycode.LEFT_ARROW),
-        send(Keycode.RIGHT_ARROW)),
     Encoder(  # Middle Encoder
-        "Change Workspaces",
+        "macOS Change Workspaces",
         board.GP2, board.GP3,
         send(Keycode.CONTROL, Keycode.LEFT_ARROW),
         send(Keycode.CONTROL, Keycode.RIGHT_ARROW)),
@@ -96,39 +97,58 @@ buttons = [
         board.GP4, board.GP5,
         send(Keycode.LEFT_ARROW),
         send(Keycode.RIGHT_ARROW)),
-        
-    Button(  # Right Encoder
-        "", board.GP6, send(Keycode.FIVE)),
+    Encoder(  # Right Encoder
+        "IDEA Move Up/Down",
+        board.GP0, board.GP1,
+        send(Keycode.CONTROL, Keycode.SHIFT, Keycode.UP_ARROW),
+        send(Keycode.CONTROL, Keycode.SHIFT, Keycode.DOWN_ARROW)),
+
+    Button(  # Left Encoder
+        "IDEA Select More",
+        board.GP6,
+        send(Keycode.CONTROL, Keycode.C)),
     Button(  # Middle Encoder
-        "", board.GP7, send(Keycode.CONTROL, Keycode.UP_ARROW)),
-    Button(  # Left Encoder 
-        "", board.GP22, send(Keycode.TWO, Keycode.TWO)),
-        
+        "macOS Expose",
+        board.GP7,
+        send(Keycode.CONTROL, Keycode.UP_ARROW)),
+    Button(  # Right Encoder
+        "IDEA Select More",
+        board.GP22,
+        send(Keycode.CONTROL, Keycode.W)),
+
     Button(  # Blue
         "", board.GP8, send(Keycode.EIGHT)),
     Button(  # Green
         "", board.GP9, send(Keycode.NINE)),
     Button(  # White
         "", board.GP10, send(Keycode.ONE, Keycode.ZERO)),
-    
+
     Button(  # Brown
         "", board.GP11, send(Keycode.ONE, Keycode.ONE)),
     Button(  # Clear
         "", board.GP12, send(Keycode.ONE, Keycode.TWO)),
     Button(  # Grey
         "", board.GP13, send(Keycode.ONE, Keycode.THREE)),
-    
+
     Button(  # Red
-        "", board.GP14, send(Keycode.ONE, Keycode.FOUR)),
+        "IDEA Extract Variable",
+        board.GP14, 
+        send(Keycode.COMMAND, Keycode.CONTROL, Keycode.V)),
     Button(  # Silent Red
-        "", board.GP15, send(Keycode.ONE, Keycode.FIVE)),
+        "IDEA Inline",
+        board.GP15,
+        send(Keycode.COMMAND, Keycode.CONTROL, Keycode.N)),
     Button(  # Speed Silver
         "", board.GP16, send(Keycode.ONE, Keycode.SIX)),
-    
+
     Button(  # Black
-        "", board.GP17, send(Keycode.COMMAND, Keycode.CONTROL, Keycode.O)),
+        "IDEA Organize Imports",
+        board.GP17,
+        send(Keycode.COMMAND, Keycode.CONTROL, Keycode.O)),
     Button(  # Silent Black
-        "", board.GP18, send(Keycode.ONE, Keycode.EIGHT)),
+        "IDEA Reformat Code",
+        board.GP18,
+        send(Keycode.COMMAND, Keycode.CONTROL, Keycode.L)),
     Button(  # RGB Silver
         "Slack Thumbs Up",
         board.GP19,
@@ -137,7 +157,8 @@ buttons = [
             send(Keycode.SHIFT, Keycode.EQUALS),
             send(Keycode.ONE),
             send(Keycode.SHIFT, Keycode.SEMICOLON),
-            send(Keycode.SPACE)
+            mediumPause(),
+            send(Keycode.COMMAND, Keycode.ENTER)
         )
     )
 ]
