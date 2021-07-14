@@ -117,18 +117,30 @@ buttons = [
         send(Keycode.CONTROL, Keycode.W)),
 
     Button(  # Blue
-        "", board.GP8, send(Keycode.EIGHT)),
+        "",
+        board.GP8,
+        send(Keycode.EIGHT)),
     Button(  # Green
-        "", board.GP9, send(Keycode.NINE)),
+        "",
+        board.GP9,
+        send(Keycode.NINE)),
     Button(  # White
-        "", board.GP10, send(Keycode.ONE, Keycode.ZERO)),
+        "", 
+        board.GP10,
+        send(Keycode.ONE, Keycode.ZERO)),
 
     Button(  # Brown
-        "", board.GP11, send(Keycode.ONE, Keycode.ONE)),
+        "", 
+        board.GP11, 
+        send(Keycode.ONE, Keycode.ONE)),
     Button(  # Clear
-        "", board.GP12, send(Keycode.ONE, Keycode.TWO)),
+        "IDEA Comment",
+        board.GP12,
+        send(Keycode.CONTROL, Keycode.FORWARD_SLASH)),
     Button(  # Grey
-        "", board.GP13, send(Keycode.ONE, Keycode.THREE)),
+        "", 
+        board.GP13, 
+        send(Keycode.ONE, Keycode.THREE)),
 
     Button(  # Red
         "IDEA Extract Variable",
@@ -139,7 +151,9 @@ buttons = [
         board.GP15,
         send(Keycode.COMMAND, Keycode.CONTROL, Keycode.N)),
     Button(  # Speed Silver
-        "", board.GP16, send(Keycode.ONE, Keycode.SIX)),
+        "", 
+        board.GP16,
+        send(Keycode.ONE, Keycode.SIX)),
 
     Button(  # Black
         "IDEA Organize Imports",
