@@ -20,13 +20,14 @@ class Button:
         self.value = True
         self.fnDown = fnDown
         self.fnShortUp = fnShortUp
-        self.fnLongUp = fnLongUp
+        self.fnLongUp = fnLongUp if fnLongUp else fnShortUp
         self.downCount = 0
 
     def detect(self):
         oldButton = not self.value
-        newButton = not self.ioPin.value
-
+        self.value = self.ioPin.value  # Update button value
+        newButton = not self.value
+        
         if not oldButton and newButton:
             debug(self.name, "pressed")
             self.fnDown()
@@ -38,12 +39,10 @@ class Button:
                 self.up()
                 self.downCount = 0
 
-        self.value = self.ioPin.value
-
     def up(self):
-        if self.fnLongUp and self.downCount > LONG_PRESS:
+        if self.downCount > LONG_PRESS:
             debug(self.name, "released slowly", self.downCount)
             self.fnLongUp()
         else:
-            debug(self.name, "released", self.downCount)
+            debug(self.name, "released quickly", self.downCount)
             self.fnShortUp()
