@@ -1,11 +1,11 @@
-# https://circuitpython.readthedocs.io/en/6.2.x/README.html
-# https://circuitpython.readthedocs.io/projects/hid/en/latest/index.html
+# Sample application: https://learn.adafruit.com/circuitpython-essentials/circuitpython-hid-keyboard-and-mouse
+# API Reference: https://circuitpython.readthedocs.io/projects/hid/en/latest/api.html#adafruit-hid-keycode-keycode
 
 import time
 import board
 from adafruit_hid.keycode import Keycode
 
-from utils import send, sequence, mediumPause
+from utils import send, sequence, write
 from button import Button
 from encoder import Encoder
 
@@ -13,7 +13,7 @@ time.sleep(1)  # Sleep for a bit to avoid a race condition on some systems
 
 buttons = [
     Encoder(  # Left Encoder
-        "",
+        "Arrows",
         board.GP4, board.GP5,
         send(Keycode.LEFT_ARROW),
         send(Keycode.RIGHT_ARROW)),
@@ -98,15 +98,9 @@ buttons = [
         board.GP12,
         send(Keycode.CONTROL, Keycode.FORWARD_SLASH)),
     Button(  # Grey
-        "Slack Happy Face",
+        "Hello",
         board.GP13,
-        sequence(
-            send(Keycode.SHIFT, Keycode.SEMICOLON),
-            send(Keycode.SHIFT, Keycode.ZERO),
-            send(Keycode.SPACE),
-            mediumPause(),
-            send(Keycode.COMMAND, Keycode.ENTER)
-        )),
+        write("Hello")),
 
     Button(  # Red
         "IDEA Extract Constant",
@@ -119,13 +113,8 @@ buttons = [
     Button(  # Speed Silver
         "Slack Happy Face",
         board.GP16,
-        sequence(
-            send(Keycode.SHIFT, Keycode.SEMICOLON),
-            send(Keycode.SHIFT, Keycode.ZERO),
-            send(Keycode.SPACE),
-            mediumPause(),
-            send(Keycode.COMMAND, Keycode.ENTER)
-        )),
+        write(":) "),
+        send(Keycode.COMMAND, Keycode.ENTER)),
 
     Button(  # Black
         "IDEA Organize Imports",
@@ -138,15 +127,8 @@ buttons = [
     Button(  # RGB Silver
         "Slack Thumbs Up",
         board.GP19,
-        sequence(
-            send(Keycode.SHIFT, Keycode.SEMICOLON),
-            send(Keycode.SHIFT, Keycode.EQUALS),
-            send(Keycode.ONE),
-            send(Keycode.SHIFT, Keycode.SEMICOLON),
-            mediumPause(),
-            send(Keycode.COMMAND, Keycode.ENTER)
-        )
-    )
+        write(":+1:"),
+        send(Keycode.COMMAND, Keycode.ENTER))
 ]
 
 while True:
