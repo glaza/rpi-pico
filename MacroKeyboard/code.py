@@ -13,10 +13,10 @@ time.sleep(1)  # Sleep for a bit to avoid a race condition on some systems
 
 buttons = [
     Encoder(  # Left Encoder
-        "Arrows",
+        "IDEA Debugging",
         board.GP4, board.GP5,
-        send(Keycode.LEFT_ARROW),
-        send(Keycode.RIGHT_ARROW)),
+        send(Keycode.SHIFT, Keycode.F8), # Step Out of
+        send(Keycode.F8)), # Step Over
     Encoder(  # Middle Encoder
         "macOS Change Workspaces",
         board.GP2, board.GP3,
@@ -29,9 +29,9 @@ buttons = [
         send(Keycode.CONTROL, Keycode.SHIFT, Keycode.DOWN_ARROW)),
 
     Button(  # Left Encoder
-        "???",
+        "IDEA Debugging Step Into",
         board.GP6,
-        send(Keycode.CONTROL, Keycode.C)),
+        send(Keycode.F7)), # Step Into
     Button(  # Middle Encoder
         "macOS Expose",
         board.GP7,
@@ -73,21 +73,7 @@ buttons = [
     Button(  # White
         "Short only",
         board.GP10,
-        sequence(
-            send(Keycode.D),
-            send(Keycode.O),
-            send(Keycode.W),
-            send(Keycode.N),
-            send(Keycode.COMMA),
-        ),
-        sequence(
-            send(Keycode.S),
-            send(Keycode.H),
-            send(Keycode.O),
-            send(Keycode.R),
-            send(Keycode.T),
-            send(Keycode.COMMA),
-        )),
+        send(Keycode.F5)),
 
     Button(  # Brown
         "IDEA Rename",
@@ -127,7 +113,7 @@ buttons = [
     Button(  # RGB Silver
         "Slack Thumbs Up",
         board.GP19,
-        write(":+1:"),
+        write(":+1: "),
         send(Keycode.COMMAND, Keycode.ENTER))
 ]
 
