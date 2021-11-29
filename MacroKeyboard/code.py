@@ -18,10 +18,10 @@ buttons = [
         send(Keycode.SHIFT, Keycode.F8), # Step Out of
         send(Keycode.F8)), # Step Over
     Encoder(  # Middle Encoder
-        "macOS Change Workspaces",
+        "Linux Change Workspaces",
         board.GP2, board.GP3,
-        send(Keycode.CONTROL, Keycode.LEFT_ARROW),
-        send(Keycode.CONTROL, Keycode.RIGHT_ARROW)),
+        send(Keycode.ALT, Keycode.CONTROL, Keycode.LEFT_ARROW),
+        send(Keycode.ALT, Keycode.CONTROL, Keycode.RIGHT_ARROW)),
     Encoder(  # Right Encoder
         "IDEA Move Up/Down",
         board.GP0, board.GP1,
@@ -32,10 +32,9 @@ buttons = [
         "IDEA Debugging Step Into",
         board.GP6,
         send(Keycode.F7)), # Step Into
-    Button(  # Middle Encoder
-        "macOS Expose",
+        "Linux Expose",
         board.GP7,
-        send(Keycode.CONTROL, Keycode.UP_ARROW)),
+        send(Keycode.COMMAND)),
     Button(  # Right Encoder
         "IDEA Select More",
         board.GP22,
@@ -46,30 +45,9 @@ buttons = [
         board.GP8,
         send(Keycode.CONTROL, Keycode.F5)),
     Button(  # Green
-        "Long Press",
+        "Linux Lock Screen",
         board.GP9,
-        sequence(
-            send(Keycode.D),
-            send(Keycode.O),
-            send(Keycode.W),
-            send(Keycode.N),
-            send(Keycode.COMMA),
-        ),
-        sequence(
-            send(Keycode.S),
-            send(Keycode.H),
-            send(Keycode.O),
-            send(Keycode.R),
-            send(Keycode.T),
-            send(Keycode.COMMA),
-        ),
-        sequence(
-            send(Keycode.L),
-            send(Keycode.O),
-            send(Keycode.N),
-            send(Keycode.G),
-            send(Keycode.COMMA),
-        )),
+        send(Keycode.COMMAND, Keycode.L)),
     Button(  # White
         "Short only",
         board.GP10,
@@ -84,9 +62,9 @@ buttons = [
         board.GP12,
         send(Keycode.CONTROL, Keycode.FORWARD_SLASH)),
     Button(  # Grey
-        "Hello",
+        "Linux Screengrab",
         board.GP13,
-        write("Hello")),
+        send(Keycode.SHIFT, Keycode.CONTROL, Keycode.PRINT_SCREEN)),
 
     Button(  # Red
         "IDEA Extract Constant",
