@@ -7,55 +7,89 @@ import time
 import board
 from adafruit_hid.keycode import Keycode
 
-from utils import noOp, send, write
+from utils import noOp, send, write, sequence
 from button import Button
 from encoder import Encoder
 
 time.sleep(1)  # Sleep for a bit to avoid a race condition on some systems
 
+useLinux = False  # False for macOs
+
+def linux(lamb):
+    return lamb if useLinux else noOp
+
+def macOs(lamb):
+    return lamb if not useLinux else noOp
+
 buttons = [
+    # ####################### Encoders ########################
     Encoder(  # Left Encoder
         "IDEA Debugging",
         board.GP4, board.GP5,
         send(Keycode.SHIFT, Keycode.F8),  # Step Out of
-        send(Keycode.F8)),  # Step Over
+        send(Keycode.F8),
+    ),  # Step Over
     Encoder(  # Middle Encoder
-        "Linux Change Workspaces",
+        "OS Change Workspaces",
         board.GP2, board.GP3,
-        send(Keycode.ALT, Keycode.CONTROL, Keycode.LEFT_ARROW),
-        send(Keycode.ALT, Keycode.CONTROL, Keycode.RIGHT_ARROW)),
+        sequence(
+            linux(send(Keycode.ALT, Keycode.CONTROL, Keycode.LEFT_ARROW)),
+            macOs(send(Keycode.CONTROL, Keycode.LEFT_ARROW)),
+        ),
+        sequence(
+            linux(send(Keycode.ALT, Keycode.CONTROL, Keycode.RIGHT_ARROW)),
+            macOs(send(Keycode.CONTROL, Keycode.RIGHT_ARROW)),
+        ),
+    ),
     Encoder(  # Right Encoder
         "IDEA Move Up/Down",
         board.GP0, board.GP1,
         send(Keycode.CONTROL, Keycode.SHIFT, Keycode.UP_ARROW),
-        send(Keycode.CONTROL, Keycode.SHIFT, Keycode.DOWN_ARROW)),
+        send(Keycode.CONTROL, Keycode.SHIFT, Keycode.DOWN_ARROW),
+    ),
 
     Button(  # Left Encoder
         "IDEA Debugging Step Into",
         board.GP6,
-        send(Keycode.F7)),  # Step Into
+        send(Keycode.F7),
+    ),  # Step Into
     Button(  # Middle Encoder
-        "Linux Expose",
+        "OS Expose",
         board.GP7,
-        send(Keycode.COMMAND)),
+        sequence(
+            linux(send(Keycode.COMMAND)),
+            macOs(send(Keycode.CONTROL, Keycode.UP_ARROW)),
+        ),
+    ),
     Button(  # Right Encoder
         "IDEA Select More",
         board.GP22,
-        send(Keycode.CONTROL, Keycode.W)),
+        send(Keycode.CONTROL, Keycode.W)
+    ),
 
+    # ####################### Clicky ########################
     Button(  # Blue
         "IDEA Run Test",
         board.GP8,
-        send(Keycode.CONTROL, Keycode.F5)),
+        sequence(
+            linux(send(Keycode.CONTROL, Keycode.F5)),
+            macOs(send(Keycode.COMMAND, Keycode.F5)),
+        ),
+    ),
     Button(  # Green
         "IDEA Comment",
         board.GP9,
-        send(Keycode.CONTROL, Keycode.FORWARD_SLASH)),
+        sequence(
+            linux(send(Keycode.CONTROL, Keycode.FORWARD_SLASH)),
+            macOs(send(Keycode.COMMAND, Keycode.FORWARD_SLASH)),
+        ),
+    ),
     Button(  # White
         "Linux Lock Screen",
         board.GP10,
         send(Keycode.COMMAND, Keycode.L)),
-
+    
+    # ####################### Tacktile ########################
     Button(  # Brown
         "IDEA Rename",
         board.GP11,
@@ -67,39 +101,76 @@ buttons = [
         send(Keycode.CONTROL, Keycode.ALT, Keycode.B),  # Short
         send(Keycode.CONTROL, Keycode.F12)),  # Long
     Button(  # Grey
-        "Linux Screengrab",
+        "Screengrab",
         board.GP13,
-        send(Keycode.SHIFT, Keycode.CONTROL, Keycode.PRINT_SCREEN)),
+        sequence(
+            linux(send(Keycode.SHIFT, Keycode.CONTROL, Keycode.PRINT_SCREEN)),
+            macOs(send(Keycode.COMMAND, Keycode.SHIFT, Keycode.FOUR)),
+        ),
+    ),
 
+    # ####################### Red Linear ########################
     Button(  # Red
         "IDEA Extract Constant/Method",
         board.GP14,
         noOp,  # Down
-        send(Keycode.CONTROL, Keycode.ALT, Keycode.C),  # Short
-        send(Keycode.CONTROL, Keycode.ALT, Keycode.M)),  # Long
+        sequence(  # Short
+            linux(send(Keycode.CONTROL, Keycode.ALT, Keycode.C)),
+            macOs(send(Keycode.COMMAND, Keycode.ALT, Keycode.C)),
+        ),
+        sequence(  # Long
+            linux(send(Keycode.CONTROL, Keycode.ALT, Keycode.M)),
+            macOs(send(Keycode.COMMAND, Keycode.ALT, Keycode.M)),
+        ),
+    ),
     Button(  # Silent Red
-        "IDEA Inline",
+        "OS Paste",
         board.GP15,
-        send(Keycode.CONTROL, Keycode.ALT, Keycode.N)),
+        sequence(
+            linux(send(Keycode.CONTROL, Keycode.V)),
+            macOs(send(Keycode.COMMAND, Keycode.V)),
+        ),
+    ),
     Button(  # Speed Silver
-        "Copy-Paste",
+        "OS Copy/Cut",
         board.GP16,
-        send(Keycode.CONTROL, Keycode.C),
-        send(Keycode.CONTROL, Keycode.V)),
+        noOp,
+        sequence(  # Short
+            linux(send(Keycode.CONTROL, Keycode.C)),
+            macOs(send(Keycode.COMMAND, Keycode.C)),
+        ),
+        sequence(  # Long
+            linux(send(Keycode.CONTROL, Keycode.X)),
+            macOs(send(Keycode.COMMAND, Keycode.X)),
+        ),
+    ),
 
+    # ####################### Black Linear ########################
     Button(  # Black
         "IDEA Organize Imports",
         board.GP17,
-        send(Keycode.CONTROL, Keycode.ALT, Keycode.O)),
+        sequence(
+            linux(send(Keycode.CONTROL, Keycode.ALT, Keycode.O)),
+            macOs(send(Keycode.SHIFT, Keycode.ALT, Keycode.O)),
+        ),
+    ),
     Button(  # Silent Black
         "IDEA Reformat Code",
         board.GP18,
-        send(Keycode.CONTROL, Keycode.ALT, Keycode.L)),
+        sequence(
+            linux(send(Keycode.CONTROL, Keycode.ALT, Keycode.L)),
+            macOs(send(Keycode.COMMAND, Keycode.ALT, Keycode.L)),
+        ),
+    ),
     Button(  # RGB Silver
         "Slack Thumbs Up",
         board.GP19,
-        write(":+1: "),
-        send(Keycode.CONTROL, Keycode.ENTER))
+        write(":+1: "),  # Down
+        sequence(  # Up
+            linux(send(Keycode.CONTROL, Keycode.ENTER)),
+            macOs(send(Keycode.COMMAND, Keycode.ENTER)),
+        ),
+    )
 ]
 
 while True:
