@@ -12,4 +12,4 @@ Each button supports keys to send on down, up and long up.
 ![Dev Board](DevelopmentBoard.jpg)
 
 ## Final MacroKeyboard
-![Final Board](MacroKeysboard.jpg)
+![Final Board](MacroKeyboard.jpg)
