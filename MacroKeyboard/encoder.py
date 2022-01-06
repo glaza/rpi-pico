@@ -15,8 +15,8 @@ class Encoder:
             pass
         if self.rioEncoder.position > self.position:
             debug(self.name, "right")
-            self.fnRight()
+            self.fnRight(self.rioEncoder.position)
         elif self.rioEncoder.position < self.position:
             debug(self.name, "left")
-            self.fnLeft()
+            self.fnLeft(self.rioEncoder.position)
         self.position = self.rioEncoder.position
