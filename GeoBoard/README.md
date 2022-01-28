@@ -4,7 +4,7 @@ Configurable Keyboard Shortcuts with:
 - 3 Rotary Encoders
 
 ## Final GeoBoard
-![Final Board](FinalGeoBoard.jpg)
+![Final Board](GeoBoard.jpg)
 
 ## Development Board
 ![Dev Board](DevelopmentBoard.jpg)
