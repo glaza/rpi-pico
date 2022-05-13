@@ -13,7 +13,7 @@ from encoder import Encoder
 
 time.sleep(1)  # Sleep for a bit to avoid a race condition on some systems
 
-useLinuxDesktop = False  # False for macOs
+useLinuxDesktop = True  # False for macOs
 useLinuxEditor = True  # False for macOs
 
 def linuxDesktop(lamb):
@@ -37,17 +37,23 @@ buttons = [
         send(Keycode.F8),
     ),  # Step Over
     Encoder(  # Middle Encoder
-        "OS Change Workspaces",
+        "IDEA Search & Find Next",
         board.GP2, board.GP3,
-        sequence(
-            linuxDesktop(send(Keycode.ALT, Keycode.CONTROL, Keycode.LEFT_ARROW)),
-            macOsDesktop(send(Keycode.CONTROL, Keycode.LEFT_ARROW)),
-        ),
-        sequence(
-            linuxDesktop(send(Keycode.ALT, Keycode.CONTROL, Keycode.RIGHT_ARROW)),
-            macOsDesktop(send(Keycode.CONTROL, Keycode.RIGHT_ARROW)),
-        ),
+        send(Keycode.SHIFT, Keycode.F3),
+        send(Keycode.F3),
     ),
+    # Encoder(  # Middle Encoder
+    #     "OS Change Workspaces",
+    #     board.GP2, board.GP3,
+    #     sequence(
+    #         linuxDesktop(send(Keycode.ALT, Keycode.CONTROL, Keycode.LEFT_ARROW)),
+    #         macOsDesktop(send(Keycode.CONTROL, Keycode.LEFT_ARROW)),
+    #     ),
+    #     sequence(
+    #         linuxDesktop(send(Keycode.ALT, Keycode.CONTROL, Keycode.RIGHT_ARROW)),
+    #         macOsDesktop(send(Keycode.CONTROL, Keycode.RIGHT_ARROW)),
+    #     ),
+    # ),
     Encoder(  # Right Encoder
         "IDEA Move Up/Down",
         board.GP0, board.GP1,
@@ -61,12 +67,9 @@ buttons = [
         send(Keycode.F7),
     ),  # Step Into
     Button(  # Middle Encoder
-        "OS Expose",
+        "Search",
         board.GP7,
-        sequence(
-            linuxDesktop(send(Keycode.COMMAND)),
-            macOsDesktop(send(Keycode.CONTROL, Keycode.UP_ARROW)),
-        ),
+        send(Keycode.CONTROL, Keycode.F),
     ),
     Button(  # Right Encoder
         "IDEA Select More",
