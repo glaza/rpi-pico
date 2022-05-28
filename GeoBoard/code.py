@@ -13,13 +13,20 @@ from encoder import Encoder
 
 time.sleep(1)  # Sleep for a bit to avoid a race condition on some systems
 
-useLinux = False  # False for macOs
+useLinuxDesktop = True  # False for macOs
+useLinuxEditor = True  # False for macOs
 
-def linux(lamb):
-    return lamb if useLinux else noOp
+def linuxDesktop(lamb):
+    return lamb if useLinuxDesktop else noOp
 
-def macOs(lamb):
-    return lamb if not useLinux else noOp
+def linuxEditor(lamb):
+    return lamb if useLinuxEditor else noOp
+
+def macOsDesktop(lamb):
+    return lamb if not useLinuxDesktop else noOp
+
+def macOsEditor(lamb):
+    return lamb if not useLinuxEditor else noOp
 
 buttons = [
     # ####################### Encoders ########################
@@ -30,17 +37,23 @@ buttons = [
         send(Keycode.F8),
     ),  # Step Over
     Encoder(  # Middle Encoder
-        "OS Change Workspaces",
+        "IDEA Search & Find Next",
         board.GP2, board.GP3,
-        sequence(
-            linux(send(Keycode.ALT, Keycode.CONTROL, Keycode.LEFT_ARROW)),
-            macOs(send(Keycode.CONTROL, Keycode.LEFT_ARROW)),
-        ),
-        sequence(
-            linux(send(Keycode.ALT, Keycode.CONTROL, Keycode.RIGHT_ARROW)),
-            macOs(send(Keycode.CONTROL, Keycode.RIGHT_ARROW)),
-        ),
+        send(Keycode.SHIFT, Keycode.F3),
+        send(Keycode.F3),
     ),
+    # Encoder(  # Middle Encoder
+    #     "OS Change Workspaces",
+    #     board.GP2, board.GP3,
+    #     sequence(
+    #         linuxDesktop(send(Keycode.ALT, Keycode.CONTROL, Keycode.LEFT_ARROW)),
+    #         macOsDesktop(send(Keycode.CONTROL, Keycode.LEFT_ARROW)),
+    #     ),
+    #     sequence(
+    #         linuxDesktop(send(Keycode.ALT, Keycode.CONTROL, Keycode.RIGHT_ARROW)),
+    #         macOsDesktop(send(Keycode.CONTROL, Keycode.RIGHT_ARROW)),
+    #     ),
+    # ),
     Encoder(  # Right Encoder
         "IDEA Move Up/Down",
         board.GP0, board.GP1,
@@ -54,12 +67,9 @@ buttons = [
         send(Keycode.F7),
     ),  # Step Into
     Button(  # Middle Encoder
-        "OS Expose",
+        "Search",
         board.GP7,
-        sequence(
-            linux(send(Keycode.COMMAND)),
-            macOs(send(Keycode.CONTROL, Keycode.UP_ARROW)),
-        ),
+        send(Keycode.CONTROL, Keycode.F),
     ),
     Button(  # Right Encoder
         "IDEA Select More",
@@ -72,23 +82,23 @@ buttons = [
         "IDEA Run Test",
         board.GP8,
         sequence(
-            linux(send(Keycode.CONTROL, Keycode.F5)),
-            macOs(send(Keycode.COMMAND, Keycode.F5)),
+            linuxEditor(send(Keycode.CONTROL, Keycode.F5)),
+            macOsEditor(send(Keycode.COMMAND, Keycode.F5)),
         ),
     ),
     Button(  # Green
         "IDEA Comment",
         board.GP9,
         sequence(
-            linux(send(Keycode.CONTROL, Keycode.FORWARD_SLASH)),
-            macOs(send(Keycode.COMMAND, Keycode.FORWARD_SLASH)),
+            linuxEditor(send(Keycode.CONTROL, Keycode.FORWARD_SLASH)),
+            macOsEditor(send(Keycode.COMMAND, Keycode.FORWARD_SLASH)),
         ),
     ),
     Button(  # White
         "Linux Lock Screen",
         board.GP10,
         send(Keycode.COMMAND, Keycode.L)),
-    
+
     # ####################### Tacktile ########################
     Button(  # Brown
         "IDEA Rename",
@@ -104,8 +114,8 @@ buttons = [
         "Screengrab",
         board.GP13,
         sequence(
-            linux(send(Keycode.SHIFT, Keycode.CONTROL, Keycode.PRINT_SCREEN)),
-            macOs(send(Keycode.COMMAND, Keycode.SHIFT, Keycode.FOUR)),
+            linuxDesktop(send(Keycode.SHIFT, Keycode.CONTROL, Keycode.PRINT_SCREEN)),
+            macOsDesktop(send(Keycode.COMMAND, Keycode.SHIFT, Keycode.FOUR)),
         ),
     ),
 
@@ -115,20 +125,20 @@ buttons = [
         board.GP14,
         noOp,  # Down
         sequence(  # Short
-            linux(send(Keycode.CONTROL, Keycode.ALT, Keycode.C)),
-            macOs(send(Keycode.COMMAND, Keycode.ALT, Keycode.C)),
+            linuxDesktop(send(Keycode.CONTROL, Keycode.ALT, Keycode.C)),
+            macOsDesktop(send(Keycode.COMMAND, Keycode.ALT, Keycode.C)),
         ),
         sequence(  # Long
-            linux(send(Keycode.CONTROL, Keycode.ALT, Keycode.M)),
-            macOs(send(Keycode.COMMAND, Keycode.ALT, Keycode.M)),
+            linuxDesktop(send(Keycode.CONTROL, Keycode.ALT, Keycode.M)),
+            macOsDesktop(send(Keycode.COMMAND, Keycode.ALT, Keycode.M)),
         ),
     ),
     Button(  # Silent Red
         "OS Paste",
         board.GP15,
         sequence(
-            linux(send(Keycode.CONTROL, Keycode.V)),
-            macOs(send(Keycode.COMMAND, Keycode.V)),
+            linuxEditor(send(Keycode.CONTROL, Keycode.V)),
+            macOsEditor(send(Keycode.COMMAND, Keycode.V)),
         ),
     ),
     Button(  # Speed Silver
@@ -136,12 +146,12 @@ buttons = [
         board.GP16,
         noOp,
         sequence(  # Short
-            linux(send(Keycode.CONTROL, Keycode.C)),
-            macOs(send(Keycode.COMMAND, Keycode.C)),
+            linuxEditor(send(Keycode.CONTROL, Keycode.C)),
+            macOsEditor(send(Keycode.COMMAND, Keycode.C)),
         ),
         sequence(  # Long
-            linux(send(Keycode.CONTROL, Keycode.X)),
-            macOs(send(Keycode.COMMAND, Keycode.X)),
+            linuxEditor(send(Keycode.CONTROL, Keycode.X)),
+            macOsEditor(send(Keycode.COMMAND, Keycode.X)),
         ),
     ),
 
@@ -150,16 +160,16 @@ buttons = [
         "IDEA Organize Imports",
         board.GP17,
         sequence(
-            linux(send(Keycode.CONTROL, Keycode.ALT, Keycode.O)),
-            macOs(send(Keycode.SHIFT, Keycode.ALT, Keycode.O)),
+            linuxEditor(send(Keycode.CONTROL, Keycode.ALT, Keycode.O)),
+            macOsEditor(send(Keycode.SHIFT, Keycode.ALT, Keycode.O)),
         ),
     ),
     Button(  # Silent Black
         "IDEA Reformat Code",
         board.GP18,
         sequence(
-            linux(send(Keycode.CONTROL, Keycode.ALT, Keycode.L)),
-            macOs(send(Keycode.COMMAND, Keycode.ALT, Keycode.L)),
+            linuxEditor(send(Keycode.CONTROL, Keycode.ALT, Keycode.L)),
+            macOsEditor(send(Keycode.COMMAND, Keycode.ALT, Keycode.L)),
         ),
     ),
     Button(  # RGB Silver
@@ -167,8 +177,8 @@ buttons = [
         board.GP19,
         write(":+1: "),  # Down
         sequence(  # Up
-            linux(send(Keycode.CONTROL, Keycode.ENTER)),
-            macOs(send(Keycode.COMMAND, Keycode.ENTER)),
+            linuxDesktop(send(Keycode.CONTROL, Keycode.ENTER)),
+            macOsDesktop(send(Keycode.COMMAND, Keycode.ENTER)),
         ),
     )
 ]
