@@ -12,18 +12,35 @@ KEY_HOLE = [14, 14, 25];
 KEY_DEPTH = STEM_DEPTH + ROUNDING;
 KEY_SPACING = 19;
 ENCODER_HOLE = 7;
-CASE_DEPTH = 10;
+TOP_CASE_DEPTH = 10;
+BOTTOM_CASE_DEPTH = 5;
 KNOB_HOLE = 6.5;
 KNOB_GROOVE_WIDTH = 5;
 KNOB_GROOVE_DEPTH = 9;
 KNOB_HOLE_DEPTH = 13;
 KNOB_DEPTH = KNOB_HOLE_DEPTH + THICK - ROUNDING;
+SCREW_SHAFT_DIAMETER = 2;
+SCREW_HOLE_DIAMETER = 4;
+SCREW_HEAD_DIAMETER = 10;
+SCREW_POS = [
+    [21, -50, -0.01],
+    [-18, -46, -0.01],
+    [32, 40, -0.01],
+    [-20, 51, -0.01]
+];
+
 $fn = 20;
 
-color("white")
-case();
+//color("pink")
+//cube([20, 50, 10], center = true);
 
-translate([0, 0, CASE_DEPTH + 1])
+color("white")
+top_case(TOP_CASE_DEPTH);
+
+translate([100, 0, 0])
+bottom_case(BOTTOM_CASE_DEPTH);
+
+translate([0, 0, TOP_CASE_DEPTH + 1])
 color("red", 0.5) {
     left_top_cap(KEY_DEPTH);
     left_middle_cap(KEY_DEPTH);
@@ -97,7 +114,7 @@ module left_top_cap(keyDepth) {
             translate([-12, -0.7, 0])
             rotate([0, 0, 9])
             scale([1/2.25, 1/2.25, 1])
-            stem();
+            key_stem();
         }
     }
 }
@@ -135,7 +152,7 @@ module left_middle_cap(keyDepth) {
             translate([-3.15, -7.9, 0])
             rotate([0, 0, 99])
             scale([1/2.25, 1/2.25, 1])
-            stem();
+            key_stem();
         }
     }
 }
@@ -164,7 +181,7 @@ module left_bottom_cap(keyDepth) {
             translate([-9.4, -17.4, 0])
             rotate([0, 0, 9])
             scale([1/2.25, 1/2.25, 1])
-            stem();
+            key_stem();
         }
     }
 }
@@ -195,7 +212,7 @@ module right_top_cap(keyDepth) {
             translate([7.15, 0, 0])
             rotate([0, 0, -9])
             scale([1/2.25, 1/2.25, 1])
-            stem();
+            key_stem();
         }
     }
 }
@@ -232,7 +249,7 @@ module right_middle_cap(keyDepth) {
             translate([5, -1.9, 0])
             rotate([0, 0, -99])
             scale([1/2.25, 1/2.25, 1])
-            stem();
+            key_stem();
         }
     }
 }
@@ -261,7 +278,7 @@ module right_bottom_cap(keyDepth) {
             translate([4.6, -16.65, 0])
             rotate([0, 0, -9])
             scale([1/2.25, 1/2.25, 1])
-            stem();
+            key_stem();
         }
     }
 }
@@ -287,11 +304,16 @@ module bonhomme_right_leg_rounded(keyDepth) {
     }
 }
     
-module case() {
+module top_case(case_depth) {
+    
+    for (screw_pos = SCREW_POS) {
+        translate(screw_pos) screw_shaft(case_depth);
+    }
+    
     difference() {
         scale([2.25, 2.25, 1])
         minkowski() {
-            linear_extrude(CASE_DEPTH - ROUNDING)
+            linear_extrude(case_depth - ROUNDING)
             scale([0.23, 0.21, 1])
             translate([-85 , -128, 0])
             import("InteleCase.dxf");
@@ -302,7 +324,7 @@ module case() {
         translate([0, 0, -0.01])
         scale([2.15, 2.15, 0.85])
         minkowski() {
-            linear_extrude(CASE_DEPTH - ROUNDING)
+            linear_extrude(case_depth - ROUNDING)
             scale([0.23, 0.21, 1])
             translate([-85 , -128, 0])
             import("InteleCase.dxf");
@@ -328,7 +350,7 @@ module case() {
         }
         
         // Left      
-       translate([-28, -2, 0])  
+        translate([-28, -2, 0])  
         rotate([0, 0, 9]) {
             translate([1, 0, 0])  
             key_hole();
@@ -339,6 +361,52 @@ module case() {
             translate([1, -2*KEY_SPACING, 0])  
             key_hole();
         }
+        
+        // USB
+        translate([0, 65, 0])
+        rotate([90, 0, 0])
+        cylinder(h=20, d=USB_DIAMETER);
+    }
+}
+
+module bottom_case(case_depth) {
+    
+    scale([1, 1, -1]) {
+        for (screw_pos = SCREW_POS) {
+            translate(screw_pos) screw_hole(case_depth);
+        }
+        
+        difference() {
+            scale([2.25, 2.25, 1])
+            minkowski() {
+                linear_extrude(case_depth - ROUNDING)
+                scale([0.23, 0.21, 1])
+                translate([-85 , -128, 0])
+                import("InteleCase.dxf");
+                
+                half_sphere();
+            }
+            
+            translate([0, 0, -0.01])
+            scale([2.15, 2.15, 0.85])
+            minkowski() {
+                linear_extrude(case_depth - ROUNDING)
+                scale([0.23, 0.21, 1])
+                translate([-85 , -128, 0])
+                import("InteleCase.dxf");
+                
+                half_sphere();
+            }
+            
+            for (screw_pos = SCREW_POS) {
+                translate(screw_pos) screw_cutout(case_depth);
+            }
+            
+            // USB
+            translate([0, 65, 0])
+            rotate([90, 0, 0])
+            cylinder(h=20, d=USB_DIAMETER);
+        }
     }
 }
 
@@ -347,7 +415,7 @@ module key_hole() {
     cube(KEY_HOLE);
 }
 
-module stem() {
+module key_stem() {
     translate([7, 7, STEM_DEPTH/2])
     difference() {
         cube([4.5, 6.5, STEM_DEPTH], center=true);
@@ -362,4 +430,27 @@ module half_sphere() {
         translate([0, 0, -5])
         cube([10, 10, 10], center=true);
     }
+}
+module screw_shaft(case_depth) {
+    difference() {
+        cylinder(h=case_depth - THICK/2, d=SCREW_SHAFT_DIAMETER + 2*THICK);
+        translate([0, 0, -0.01])
+        cylinder(h=2*case_depth, d=SCREW_SHAFT_DIAMETER);
+    }
+}
+
+module screw_hole(case_depth) {
+    difference() {
+        cylinder(h=case_depth - THICK/2, d=SCREW_HEAD_DIAMETER + 2*THICK);
+        translate([0, 0, -0.01])
+        cylinder(h=2*case_depth, d=SCREW_HEAD_DIAMETER);
+    }
+    difference() {
+        cylinder(h=THICK, d=SCREW_HEAD_DIAMETER + 2*THICK);
+        translate([0, 0, -0.01])
+        cylinder(h=2*case_depth, d=SCREW_HOLE_DIAMETER);
+    }
+}
+module screw_cutout(case_depth) {
+        cylinder(h=2*case_depth, d=SCREW_HEAD_DIAMETER);
 }
