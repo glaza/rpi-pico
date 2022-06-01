@@ -4,12 +4,12 @@ ROUNDING = 2;
 THICK = 2;
 USB_DIAMETER = 4;
 USB_HEIGHT = 10;
-STEM_DEPTH = 6;
+STEM_DEPTH = 5;
 STEM_WIDTH = 4.5;
 STEM_HEIGHT = 4.5;
 STEM_THICKNESS = 1.5;
 KEY_HOLE = [14, 14, 25];
-KEY_DEPTH = STEM_DEPTH + ROUNDING;
+KEY_DEPTH = STEM_DEPTH + THICK/2 - ROUNDING;
 KEY_SPACING = 19;
 ENCODER_HOLE = 7;
 TOP_CASE_DEPTH = 10;
@@ -75,16 +75,17 @@ module knob(knobDepth) {
             
             // Stem
             scale([1/2.25, 1/2.25, 1])
-            translate([1.25, 35.5, KNOB_HOLE_DEPTH/2])
-            difference() {
-                cylinder(h=KNOB_HOLE_DEPTH, d=KNOB_HOLE+2*THICK, center=true);
-                
+            translate([1.25, 35.5, KNOB_HOLE_DEPTH/2]) {
                 difference() {
-                    cylinder(h=KNOB_HOLE_DEPTH+0.1, d=KNOB_HOLE, center=true);
+                    cylinder(h=KNOB_HOLE_DEPTH, d1=KNOB_HOLE+3*THICK, d2=KNOB_HOLE+4*THICK, center=true);
                     
-                    translate([KNOB_GROOVE_WIDTH, 0, KNOB_DEPTH-KNOB_GROOVE_DEPTH])
-                    cube([KNOB_HOLE, KNOB_HOLE, KNOB_DEPTH], center=true);
-                } 
+                    difference() {
+                        cylinder(h=KNOB_HOLE_DEPTH+0.1, d=KNOB_HOLE, center=true);
+                        
+                        translate([KNOB_GROOVE_WIDTH, 0, KNOB_DEPTH-KNOB_GROOVE_DEPTH])
+                        cube([KNOB_HOLE, KNOB_HOLE, KNOB_DEPTH], center=true);
+                    }
+                }
             }
         }
     }
@@ -416,12 +417,13 @@ module key_hole() {
 }
 
 module key_stem() {
-    translate([7, 7, STEM_DEPTH/2])
-    difference() {
-        cube([4.5, 6.5, STEM_DEPTH], center=true);
-        cube([STEM_WIDTH, STEM_THICKNESS, 2*STEM_DEPTH], center=true);
-        cube([STEM_THICKNESS, STEM_HEIGHT, 2*STEM_DEPTH], center=true);
-    }
+    translate([7, 7, STEM_DEPTH/2]) {
+        difference() {
+            cube([4.5, 6.5, STEM_DEPTH], center=true);
+            cube([STEM_WIDTH, STEM_THICKNESS, 2*STEM_DEPTH], center=true);
+            cube([STEM_THICKNESS, STEM_HEIGHT, 2*STEM_DEPTH], center=true);
+        }
+    }    
 }
 module half_sphere() {
     difference() {
