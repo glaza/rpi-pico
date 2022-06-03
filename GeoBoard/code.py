@@ -97,7 +97,8 @@ buttons = [
     Button(  # White
         "Linux Lock Screen",
         board.GP10,
-        send(Keycode.COMMAND, Keycode.L)),
+        send(Keycode.COMMAND, Keycode.L)
+    ),
 
     # ####################### Tacktile ########################
     Button(  # Brown

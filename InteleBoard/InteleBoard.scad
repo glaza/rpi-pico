@@ -19,7 +19,7 @@ KNOB_GROOVE_WIDTH = 5;
 KNOB_GROOVE_DEPTH = 9;
 KNOB_HOLE_DEPTH = 13;
 KNOB_DEPTH = KNOB_HOLE_DEPTH + THICK - ROUNDING;
-SCREW_SHAFT_DIAMETER = 2;
+SCREW_SHAFT_DIAMETER = 3;
 SCREW_HOLE_DIAMETER = 4;
 SCREW_HEAD_DIAMETER = 10;
 SCREW_POS = [
@@ -35,7 +35,7 @@ $fn = 20;
 //cube([20, 50, 10], center = true);
 
 color("white")
-top_case(TOP_CASE_DEPTH);
+!top_case(TOP_CASE_DEPTH);
 
 translate([100, 0, 0])
 bottom_case(BOTTOM_CASE_DEPTH);
