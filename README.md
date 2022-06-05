@@ -20,7 +20,7 @@ Collection of CircuitPython scripts for my Raspberry Pi Pico projects
 5. Copy `code.py` and all files in the `shared` folder to the root of the Pico
 
 # Debuging
-1. Recommended editor: Mu Editor
+1. Recommended editor: [Mu Editor](https://codewith.mu/en/download) ([full Adafruit Tutorial](https://learn.adafruit.com/getting-started-with-raspberry-pi-pico-circuitpython/overview))
 2. Open a python file directly from the Pico
 3. Edit the file
 4. Press the `Check`👍 toolbar button to verify your code compiles

@@ -1,6 +1,6 @@
 # InteleBoard
 Configurable Keyboard Shortcuts with:
-- 6 Brown Cherry MX Switches
+- 6 Gateron MX Brown Switches
 - 1 Rotary Encoder
 
 # Final Board
@@ -10,3 +10,6 @@ Configurable Keyboard Shortcuts with:
 ![1](InteleBoard-Construction1.jpg)
 ![2](InteleBoard-Construction2.jpg)
 ![3](InteleBoard-Construction3.jpg)
+
+## 3D Models
+![Top Case](STL/case_top.stl)
