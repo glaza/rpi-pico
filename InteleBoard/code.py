@@ -1,7 +1,4 @@
-# Sample application:
-# https://learn.adafruit.com/circuitpython-essentials/circuitpython-hid-keyboard-and-mouse
-# API Reference:
-# https://circuitpython.readthedocs.io/projects/hid/en/latest/api.html#adafruit-hid-keycode-keycode
+# Documentation: https://github.com/glaza/rpi-pico
 
 import time
 import board
@@ -30,34 +27,34 @@ buttons = [
     # ####################### Left ########################
     Button(
         "Left Top",
-        board.GP14,
+        board.GP1,
         send(Keycode.ONE),
     ),
     Button(
         "Left Middle",
-        board.GP10,
+        board.GP5,
         send(Keycode.TWO),
     ),
     Button(
         "Left Bottom",
-        board.GP6,
+        board.GP9,
         send(Keycode.THREE),
     ),
 
     # ####################### Right ########################
     Button(
         "Right Top",
-        board.GP17,
+        board.GP22,
         send(Keycode.FOUR),
     ),
     Button(
         "Right Middle",
-        board.GP21,
+        board.GP18,
         send(Keycode.FIVE),
     ),
     Button(
         "Right Bottom",
-        board.GP2,
+        board.GP14,
         send(Keycode.SIX),
     ),
 ]

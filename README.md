@@ -1,13 +1,16 @@
 # rpi-pico
 Collection of CircuitPython scripts for my Raspberry Pi Pico projects
 
-[GeoBoard](GeoBoard/README.md)
+## [GeoBoard](GeoBoard/README.md)
 ![GeoBoard](GeoBoard/GeoBoard.jpg)
 
-[DrewBoard](DrewBoard/README.md)
+## [DrewBoard](DrewBoard/README.md)
 ![DrewBoard](DrewBoard/DrewBoard.jpg)
 
-[shared](shared/README.md)
+## [InteleBoard](InteleBoard/README.md)
+![InteleBoard](InteleBoard/InteleBoard.jpg)
+
+## [shared](shared/README.md)
 
 # Installation
 1. Download CircuitPython for Raspberry Pi Pico from [here](https://circuitpython.org/board/raspberry_pi_pico/)
@@ -25,6 +28,8 @@ Collection of CircuitPython scripts for my Raspberry Pi Pico projects
 6. Save the edited file
 
 # Example Encoders
+[Keycode API Reference](https://circuitpython.readthedocs.io/projects/hid/en/latest/api.html#adafruit-hid-keycode-keycode)
+
 ## IntelliJ IDEA Move Code Block
 ```python
     Encoder(
@@ -35,7 +40,7 @@ Collection of CircuitPython scripts for my Raspberry Pi Pico projects
     ),
     Button(
         "IDEA Select More",
-        board.GP22,  # Replace with your GPIO pin numbers
+        board.GP22,  # Replace with your GPIO pin number
         send(Keycode.CONTROL, Keycode.W)
     ),
 ```
@@ -50,9 +55,24 @@ Collection of CircuitPython scripts for my Raspberry Pi Pico projects
     ),
     Button(
         "IDEA Debugging Step Into",
-        board.GP6,  # Replace with your GPIO pin numbers
+        board.GP6,  # Replace with your GPIO pin number
         send(Keycode.F7),  # Press button: Step into
     )
+```
+
+## IntelliJ IDEA Find Next & Prev
+```python
+    Encoder(
+        "IDEA Search & Find Next",
+        board.GP2, board.GP3,  # Replace with your GPIO pin numbers
+        send(Keycode.SHIFT, Keycode.F3),
+        send(Keycode.F3),
+    ),
+    Button(
+        "Search",
+        board.GP7,  # Replace with your GPIO pin number
+        send(Keycode.CONTROL, Keycode.F),
+    ),
 ```
 
 ## Change OS Workspaces
@@ -65,7 +85,7 @@ Collection of CircuitPython scripts for my Raspberry Pi Pico projects
     ),
     Button(
         "Linux Tile Windows",
-        board.GP6,  # Replace with your GPIO pin numbers
+        board.GP6,  # Replace with your GPIO pin number
         send(Keycode.COMMAND),  # Press button: Tile Windows
     )
 ```
@@ -75,7 +95,7 @@ Collection of CircuitPython scripts for my Raspberry Pi Pico projects
 ```python
     Button(
         "IDEA Run Test",
-        board.GP8,  # Replace with your GPIO pin numbers
+        board.GP8,  # Replace with your GPIO pin number
         send(Keycode.CONTROL, Keycode.F5),
     ),
 ```
@@ -84,7 +104,7 @@ Collection of CircuitPython scripts for my Raspberry Pi Pico projects
 ```python
     Button(
         "IDEA Comment",
-        board.GP9,  # Replace with your GPIO pin numbers
+        board.GP9,  # Replace with your GPIO pin number
         send(Keycode.CONTROL, Keycode.FORWARD_SLASH),
     ),
 ```
@@ -93,7 +113,7 @@ Collection of CircuitPython scripts for my Raspberry Pi Pico projects
 ```python
     Button(
         "IDEA Organize Imports",
-        board.GP17,  # Replace with your GPIO pin numbers
+        board.GP17,  # Replace with your GPIO pin number
         send(Keycode.CONTROL, Keycode.ALT, Keycode.O),
     ),
 ```
@@ -102,7 +122,7 @@ Collection of CircuitPython scripts for my Raspberry Pi Pico projects
 ```python
     Button(
         "IDEA Reformat Code",
-        board.GP18,  # Replace with your GPIO pin numbers
+        board.GP18,  # Replace with your GPIO pin number
         send(Keycode.CONTROL, Keycode.ALT, Keycode.L),
     ),
 ```
@@ -111,17 +131,44 @@ Collection of CircuitPython scripts for my Raspberry Pi Pico projects
 ```python
     Button(
         "Linux Lock Screen",
-        board.GP10,  # Replace with your GPIO pin numbers
+        board.GP10,  # Replace with your GPIO pin number
         send(Keycode.COMMAND, Keycode.L),
     ),
 ```
 
-## Slack Thumbs Up 👍
+## Slack Thumbs Up 👍 (Typing Example)
 ```python
     Button(
         "Slack Thumbs Up",
-        board.GP19,  # Replace with your GPIO pin numbers
-        write(":+1: "),  # Down
-        send(Keycode.CONTROL, Keycode.ENTER),  # Up
+        board.GP19,  # Replace with your GPIO pin number
+        write(":+1: "),  # KeyDown
+        send(Keycode.CONTROL, Keycode.ENTER),  # KeyUp
+    )
+```
+
+## Copy and Cut (Long Press & NoOp Example)
+```python
+    Button(
+        "OS Copy/Cut",
+        board.GP16,
+        noOp,  # KeyDown -> nothing
+        send(Keycode.CONTROL, Keycode.C),  # KeyUp (Short) -> copy
+        send(Keycode.CONTROL, Keycode.X),  # KeyUp (Long) -> cut
+    ),
+```
+
+## Emacs Save & Exit (Sequence Example)
+```python
+    Button(
+        "Emacs Save & Close",
+        board.GP19,  # Replace with your GPIO pin number
+        sequence(,  # KeyDown -> Save
+            send(Keycode.CONTROL, Keycode.X),
+            send(Keycode.CONTROL, Keycode.S),
+        ),
+        sequence(,  # KeyUp -> Exit
+            send(Keycode.CONTROL, Keycode.X),
+            send(Keycode.CONTROL, Keycode.C),
+        ),
     )
 ```
