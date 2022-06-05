@@ -12,4 +12,4 @@ Configurable Keyboard Shortcuts with:
 ![3](InteleBoard-Construction3.jpg)
 
 ## 3D Models
-![Top Case](STL/case_top.stl)
+[STL folder](STL/)
